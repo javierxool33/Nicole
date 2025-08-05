@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Para Nicole 💖</title>
   <style>
     * {
@@ -11,8 +12,9 @@
     body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      overflow-x: hidden;
       font-family: 'Segoe Script', cursive;
+      background: #fff;
     }
 
     body::before {
@@ -44,31 +46,30 @@
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 18px;
+      height: 18px;
       background: white;
       border-radius: 50%;
       opacity: 0.8;
-      animation: float 10s linear infinite;
+      box-shadow: 0 0 8px white;
+      animation: float 14s linear infinite;
     }
 
     @keyframes float {
-      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      0% { transform: translateY(0) scale(1); opacity: 0.9; }
       100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
     }
 
     .container {
       text-align: center;
-      max-width: 600px;
-      margin: auto;
-      margin-top: 5%;
+      max-width: 90%;
+      margin: 5% auto;
       padding: 30px;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.92);
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
       animation: fadeIn 2s ease-in-out;
       z-index: 1;
-      position: relative;
     }
 
     @keyframes fadeIn {
@@ -76,57 +77,31 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .heart {
-      position: relative;
+    .heart-svg {
       width: 120px;
-      height: 100px;
-      margin: 0 auto 20px;
-      animation: beat 1s infinite;
+      margin-bottom: 20px;
+      animation: latido 1s infinite ease-in-out;
     }
 
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 120px;
-      height: 100px;
-      background: red;
-      border-radius: 60px 60px 0 0;
-    }
-
-    .heart::before {
-      left: 60px;
-      transform: rotate(-45deg);
-      transform-origin: 0 100%;
-    }
-
-    .heart::after {
-      left: 0;
-      transform: rotate(45deg);
-      transform-origin: 100% 100%;
-    }
-
-    @keyframes beat {
+    @keyframes latido {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.2); }
     }
 
     h1 {
       color: #d6336c;
-      font-size: 2.2em;
+      font-size: 2em;
       margin-bottom: 10px;
       text-shadow: 1px 1px #fff;
     }
 
     .frase {
-      font-size: 1.2em;
+      font-size: 1.1em;
       color: #7b1e3d;
       margin-top: 10px;
       line-height: 1.6;
       min-height: 100px;
       white-space: pre-wrap;
-      text-align: center;
     }
 
     .firma {
@@ -154,37 +129,55 @@
 
     /* Modal */
     .modal {
-      display: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: fixed;
       z-index: 100;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
       background-color: rgba(0,0,0,0.6);
+      animation: fadeModalIn 0.8s ease;
+    }
+
+    @keyframes fadeModalIn {
+      0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+      60% { transform: scale(1.05) rotate(3deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
     }
 
     .modal-content {
       background-color: #fff;
-      margin: 10% auto;
       padding: 20px;
       border-radius: 15px;
-      width: 80%;
+      width: 90%;
+       overflow-y: auto;  
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      animation: fadeInModal 0.5s ease;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+      animation: popIn 0.7s ease;
     }
 
-    @keyframes fadeInModal {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content.close-anim {
+      animation: kissOut 0.7s ease forwards;
+    }
+
+    @keyframes kissOut {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.7) rotate(-10deg); opacity: 0; }
     }
 
     .modal img {
-      width: 100%;
+      width: 80%;
       border-radius: 12px;
+      margin-top: 10px;
     }
 
     .close {
@@ -207,6 +200,12 @@
       font-size: 0.9em;
       color: #b3004b;
     }
+
+    @media screen and (max-width: 480px) {
+      h1 { font-size: 1.6em; }
+      .frase { font-size: 1em; }
+      button { font-size: 0.9em; padding: 10px 18px; }
+    }
   </style>
 </head>
 <body>
@@ -214,12 +213,18 @@
   <!-- Partículas -->
   <div class="particles" id="particles"></div>
 
-  <!-- Botón de audio -->
+  <!-- Botón de música -->
   <div id="audioControl" onclick="toggleAudio()">🎵 Pausar música</div>
   <audio id="bgMusic" src="melodia.mp3" autoplay loop></audio>
+  <audio id="kissSound" src="beso.mp3"></audio>
 
   <div class="container">
-    <div class="heart"></div>
+    <!-- Corazón SVG -->
+    <svg class="heart-svg" viewBox="0 0 32 29.6">
+      <path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.1,16,21.2,16,21.2S32,17.5,32,8.4
+        C32,3.8,28.2,0,23.6,0z"/>
+    </svg>
+
     <h1>Para ti, Nicole 💗</h1>
     <p id="frase" class="frase"></p>
     <p class="firma">— Con cariño, alguien que piensa mucho en ti 💌</p>
@@ -227,17 +232,17 @@
   </div>
 
   <!-- Modal -->
-  <div id="miModal" class="modal">
-    <div class="modal-content">
+  <div id="miModal" class="modal" style="display: none;">
+    <div id="modalContent" class="modal-content">
       <span class="close" onclick="cerrarModal()">&times;</span>
-      <h2>Mi Nicole 💕</h2>
+      <h2>Hola Nicole 💕</h2>
       <img src="/img/nicole.jpg" alt="Tu foto hermosa">
-      <p style="margin-top: 10px;">Aquí está quien se esta robando mis pensamientos...</p>
+      <p>Aquí está quien no deja de pensar en ti...</p>
     </div>
   </div>
 
   <script>
-    // Efecto máquina de escribir
+    // Máquina de escribir
     const texto = `Quiero que sepas que me encanta estar contigo,
 que tus abrazos me envuelven y tus besos...
 tus besos me encienden, me apasionan, me pierden.
@@ -254,26 +259,34 @@ tus besos me encienden, me apasionan, me pierden.
 
     // Modal
     function abrirModal() {
-      document.getElementById('miModal').style.display = "block";
+      document.getElementById('miModal').style.display = "flex";
+      document.getElementById("modalContent").classList.remove("close-anim");
     }
+
     function cerrarModal() {
-      document.getElementById('miModal').style.display = "none";
+      const modalContent = document.getElementById("modalContent");
+      const kissSound = document.getElementById("kissSound");
+      kissSound.play();
+      modalContent.classList.add("close-anim");
+      setTimeout(() => {
+        document.getElementById('miModal').style.display = "none";
+        modalContent.classList.remove("close-anim");
+      }, 700);
     }
+
     window.onclick = function(event) {
       const modal = document.getElementById('miModal');
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+      if (event.target == modal) cerrarModal();
     }
 
     // Partículas
     const particles = document.getElementById('particles');
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 50; i++) {
       const p = document.createElement('div');
       p.classList.add('particle');
       p.style.left = Math.random() * 100 + 'vw';
       p.style.top = Math.random() * 100 + 'vh';
-      p.style.animationDuration = (5 + Math.random() * 10) + 's';
+      p.style.animationDuration = (6 + Math.random() * 10) + 's';
       p.style.opacity = Math.random();
       particles.appendChild(p);
     }
