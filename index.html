@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Nicole 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Segoe Script', cursive;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #ffb3c6, #ffe6f0, #ffccd5, #ffcce0);
+      background-size: 600% 600%;
+      animation: fondoAnimado 20s ease infinite;
+      z-index: -3;
+    }
+
+    @keyframes fondoAnimado {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      margin: auto;
+      margin-top: 5%;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+      animation: fadeIn 2s ease-in-out;
+      z-index: 1;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heart {
+      position: relative;
+      width: 120px;
+      height: 100px;
+      margin: 0 auto 20px;
+      animation: beat 1s infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 120px;
+      height: 100px;
+      background: red;
+      border-radius: 60px 60px 0 0;
+    }
+
+    .heart::before {
+      left: 60px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .heart::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px #fff;
+    }
+
+    .frase {
+      font-size: 1.2em;
+      color: #7b1e3d;
+      margin-top: 10px;
+      line-height: 1.6;
+      min-height: 100px;
+      white-space: pre-wrap;
+      text-align: center;
+    }
+
+    .firma {
+      margin-top: 25px;
+      font-size: 1em;
+      color: #b3004b;
+      font-style: italic;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background-color: #ff5e8e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e84a78;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: fadeInModal 0.5s ease;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .close {
+      color: #d6336c;
+      font-size: 1.5em;
+      float: right;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #audioControl {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      background-color: rgba(255,255,255,0.7);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 200;
+      font-size: 0.9em;
+      color: #b3004b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Partículas -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Botón de audio -->
+  <div id="audioControl" onclick="toggleAudio()">🎵 Pausar música</div>
+  <audio id="bgMusic" src="melodia.mp3" autoplay loop></audio>
+
+  <div class="container">
+    <div class="heart"></div>
+    <h1>Para ti, Nicole 💗</h1>
+    <p id="frase" class="frase"></p>
+    <p class="firma">— Con cariño, alguien que piensa mucho en ti 💌</p>
+    <button onclick="abrirModal()">Si abres esto, aparecerá la personita que está provocando esto... 💞</button>
+  </div>
+
+  <!-- Modal -->
+  <div id="miModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+      <h2>Mi Nicole 💕</h2>
+      <img src="nicole.jpg" alt="Tu foto hermosa">
+      <p style="margin-top: 10px;">Aquí está quien se esta robando mis pensamientos...</p>
+    </div>
+  </div>
+
+  <script>
+    // Efecto máquina de escribir
+    const texto = `Quiero que sepas que me encanta estar contigo,
+que tus abrazos me envuelven y tus besos...
+tus besos me encienden, me apasionan, me pierden.
+¡Y me fascina cada instante que paso a tu lado!`;
+    let i = 0;
+    function escribir() {
+      if (i < texto.length) {
+        document.getElementById("frase").textContent += texto.charAt(i);
+        i++;
+        setTimeout(escribir, 50);
+      }
+    }
+    escribir();
+
+    // Modal
+    function abrirModal() {
+      document.getElementById('miModal').style.display = "block";
+    }
+    function cerrarModal() {
+      document.getElementById('miModal').style.display = "none";
+    }
+    window.onclick = function(event) {
+      const modal = document.getElementById('miModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Partículas
+    const particles = document.getElementById('particles');
+    for (let i = 0; i < 60; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.top = Math.random() * 100 + 'vh';
+      p.style.animationDuration = (5 + Math.random() * 10) + 's';
+      p.style.opacity = Math.random();
+      particles.appendChild(p);
+    }
+
+    // Audio control
+    const music = document.getElementById("bgMusic");
+    const control = document.getElementById("audioControl");
+    function toggleAudio() {
+      if (music.paused) {
+        music.play();
+        control.textContent = "🎵 Pausar música";
+      } else {
+        music.pause();
+        control.textContent = "▶️ Reanudar música";
+      }
+    }
+  </script>
+
+</body>
+</html>
